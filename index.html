@@ -163,6 +163,7 @@
         function preselectCountry() {
             const userLocale = navigator.language || "en-US";
             const countryFromLocale = countriesData.find(country => country.locale === userLocale)?.country || "United States";
+            console.log(userLocale, navigator.language);
             const dropdown = document.getElementById('countryDropdown');
             const options = Array.from(dropdown.options);
             const match = options.find(option => option.textContent === countryFromLocale);
