@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Country Voter Info</title>
+    <title>Hive Democracy Checker</title>
     <script>
         const countriesData = [
             { "country": "Afghanistan", "eligible_voters": 7000000 },
@@ -62,28 +62,122 @@
 
         const totalHivePower = 181000000;
 
+        const countriesWithArticle = ["United States", "United Kingdom", "Netherlands", "Philippines", "Czech Republic"];
+
+        async function getGlobalProperties() {
+            const response = await fetch(`https://api.hive.blog`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    jsonrpc: "2.0",
+                    method: "condenser_api.get_dynamic_global_properties",
+                    params: [],
+                    id: 1
+                })
+            });
+            const data = await response.json();
+            return [parseFloat(data.result.total_vesting_fund_hive.split(" ")[0]),parseFloat(data.result.total_vesting_shares.split(" ")[0])];
+        }
+
+        async function getAccountHP(accountName) {
+            const response = await fetch(`https://api.hive.blog`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({
+                    jsonrpc: "2.0",
+                    method: "condenser_api.get_accounts",
+                    params: [[accountName]],
+                    id: 1
+                })
+            });
+            const data = await response.json();
+            const account = data.result[0];
+            if (account) {
+                const vestingShares = parseFloat(account.vesting_shares.split(" ")[0]);
+                const totalVestingFundHive = await getGlobalProperties();
+                return vestingShares * totalVestingFundHive[0] / totalVestingFundHive[1];
+            }
+            return null;
+        }
+
+        async function calculateVotes() {
+            const dropdown = document.getElementById('countryDropdown');
+            const voters = dropdown.value;
+            const input = document.getElementById('hpInput').value.trim();
+            const votesDisplay = document.getElementById('votesInfo');
+            const selectedCountry = dropdown.options[dropdown.selectedIndex]?.text;
+
+            if (!voters || !input) {
+                votesDisplay.textContent = '';
+                return;
+            }
+
+            let hp = parseFloat(input);
+            let accountName = null;
+
+            if (isNaN(hp)) {
+                accountName = input;
+                hp = await getAccountHP(accountName);
+                if (hp === null) {
+                    votesDisplay.textContent = `Account "${accountName}" not found or invalid.`;
+                    return;
+                }
+            }
+
+            const votes = (hp / totalHivePower) * voters;
+            const countryName = countriesWithArticle.includes(selectedCountry) ? `the ${selectedCountry}` : selectedCountry;
+            const prefix = accountName ? `@${accountName}'s` : `Your`;
+
+            const locale = dropdown.options[dropdown.selectedIndex]?.dataset.locale || 'en-US';
+            const formattedHP = new Intl.NumberFormat(locale).format(hp.toFixed(2));
+            const formattedVotes = new Intl.NumberFormat(locale).format(Math.floor(votes));
+
+            votesDisplay.textContent = `${prefix} vote on Hive with ${formattedHP} HP has as much influence as ${formattedVotes} votes in the general elections of ${countryName}.`;
+        }
+
         function loadCountries() {
             const dropdown = document.getElementById('countryDropdown');
             countriesData.forEach(country => {
                 const option = document.createElement('option');
                 option.value = country.eligible_voters;
                 option.textContent = country.country;
+                option.dataset.locale = getLocaleForCountry(country.country);
                 dropdown.appendChild(option);
             });
+
+            preselectCountry();
         }
 
-        function calculateVotes() {
-            const dropdown = document.getElementById('countryDropdown');
-            const voters = dropdown.value;
-            const hpInput = document.getElementById('hpInput').value;
-            const votesDisplay = document.getElementById('votesInfo');
-            const selectedCountry = dropdown.options[dropdown.selectedIndex]?.text;
+        function getLocaleForCountry(country) {
+            const locales = {
+                "United States": "en-US",
+                "United Kingdom": "en-GB",
+                "Germany": "de-DE",
+                "France": "fr-FR",
+                "India": "en-IN",
+            };
+            return locales[country] || "en-US";
+        }
 
-            if (voters && hpInput) {
-                const votes = (hpInput / totalHivePower) * voters;
-                votesDisplay.textContent = `Your vote on Hive with ${hpInput} HP has as much influence as ${Math.floor(votes)} votes in the general elections of ${selectedCountry}.`;
-            } else {
-                votesDisplay.textContent = '';
+        async function preselectCountry() {
+            try {
+                const response = await fetch("https://ipapi.co/json/");
+                const data = await response.json();
+                const userCountry = data.country_name || "United States";
+                const dropdown = document.getElementById('countryDropdown');
+                const options = Array.from(dropdown.options);
+                const match = options.find(option => option.textContent === userCountry);
+                if (match) {
+                    dropdown.value = match.value;
+                } else {
+                    dropdown.value = options.find(option => option.textContent === "United States").value;
+                }
+                calculateVotes();
+            } catch (error) {
+                console.error("Could not determine user location, defaulting to United States.");
+                const dropdown = document.getElementById('countryDropdown');
+                dropdown.value = Array.from(dropdown.options).find(option => option.textContent === "United States").value;
+                calculateVotes();
             }
         }
 
@@ -91,9 +185,9 @@
     </script>
 </head>
 <body>
-    <h1>Country Voter Information</h1>
-    <label for="hpInput">Enter Hive Power (HP):</label>
-    <input type="number" id="hpInput" oninput="calculateVotes()" value="100" />
+    <h1>Hive Democracy Checker</h1>
+    <label for="hpInput">Staked Hive Power (HP) or Account Name:</label>
+    <input type="text" id="hpInput" oninput="calculateVotes()" placeholder="Enter HP or account name" />
     <br />
     <label for="countryDropdown">Select a country:</label>
     <select id="countryDropdown" onchange="calculateVotes()">
@@ -101,5 +195,9 @@
     </select><br />
 
     <p id="votesInfo"></p>
+    <footer>
+        <p>Created by <a href="http://pharesim.me" target="_blank">@pharesim</a></p>
+        <p><a href="https://github.com/pharesim/hive-democracy" target="_blank">GitHub</a></p>
+    </footer>
 </body>
 </html>
