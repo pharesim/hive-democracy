@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Country Voter Info</title>
+    <script>
+        const countriesData = [
+            { "country": "Afghanistan", "eligible_voters": 7000000 },
+            { "country": "Algeria", "eligible_voters": 23000000 },
+            { "country": "Argentina", "eligible_voters": 33000000 },
+            { "country": "Australia", "eligible_voters": 18000000 },
+            { "country": "Bangladesh", "eligible_voters": 104000000 },
+            { "country": "Belgium", "eligible_voters": 8500000 },
+            { "country": "Brazil", "eligible_voters": 147000000 },
+            { "country": "Canada", "eligible_voters": 27000000 },
+            { "country": "Chile", "eligible_voters": 15000000 },
+            { "country": "China", "eligible_voters": 1400000000 },
+            { "country": "Colombia", "eligible_voters": 15000000 },
+            { "country": "Cuba", "eligible_voters": 8000000 },
+            { "country": "Czech Republic", "eligible_voters": 8500000 },
+            { "country": "Egypt", "eligible_voters": 70000000 },
+            { "country": "France", "eligible_voters": 50700000 },
+            { "country": "Germany", "eligible_voters": 65100000 },
+            { "country": "Ghana", "eligible_voters": 18000000 },
+            { "country": "Greece", "eligible_voters": 9700000 },
+            { "country": "India", "eligible_voters": 968000000 },
+            { "country": "Indonesia", "eligible_voters": 190000000 },
+            { "country": "Iran", "eligible_voters": 56000000 },
+            { "country": "Iraq", "eligible_voters": 13000000 },
+            { "country": "Italy", "eligible_voters": 47300000 },
+            { "country": "Japan", "eligible_voters": 105000000 },
+            { "country": "Kenya", "eligible_voters": 19000000 },
+            { "country": "Malaysia", "eligible_voters": 15000000 },
+            { "country": "Mexico", "eligible_voters": 93000000 },
+            { "country": "Morocco", "eligible_voters": 18000000 },
+            { "country": "Nepal", "eligible_voters": 12000000 },
+            { "country": "Nigeria", "eligible_voters": 84000000 },
+            { "country": "Pakistan", "eligible_voters": 127000000 },
+            { "country": "Peru", "eligible_voters": 25000000 },
+            { "country": "Philippines", "eligible_voters": 67500000 },
+            { "country": "Poland", "eligible_voters": 30000000 },
+            { "country": "Portugal", "eligible_voters": 9600000 },
+            { "country": "Romania", "eligible_voters": 18900000 },
+            { "country": "Russia", "eligible_voters": 111000000 },
+            { "country": "Saudi Arabia", "eligible_voters": 3000000 },
+            { "country": "South Africa", "eligible_voters": 26000000 },
+            { "country": "South Korea", "eligible_voters": 44000000 },
+            { "country": "Sri Lanka", "eligible_voters": 17100000 },
+            { "country": "Sudan", "eligible_voters": 12000000 },
+            { "country": "Tanzania", "eligible_voters": 15000000 },
+            { "country": "Thailand", "eligible_voters": 52000000 },
+            { "country": "Turkey", "eligible_voters": 60000000 },
+            { "country": "Ukraine", "eligible_voters": 20000000 },
+            { "country": "United Kingdom", "eligible_voters": 47000000 },
+            { "country": "United States", "eligible_voters": 250000000 },
+            { "country": "Uzbekistan", "eligible_voters": 10000000 },
+            { "country": "Venezuela", "eligible_voters": 21000000 },
+            { "country": "Vietnam", "eligible_voters": 69000000 },
+            { "country": "Zimbabwe", "eligible_voters": 10000000 }
+        ];
+
+        const totalHivePower = 181000000;
+
+        function loadCountries() {
+            const dropdown = document.getElementById('countryDropdown');
+            countriesData.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country.eligible_voters;
+                option.textContent = country.country;
+                dropdown.appendChild(option);
+            });
+        }
+
+        function calculateVotes() {
+            const dropdown = document.getElementById('countryDropdown');
+            const voters = dropdown.value;
+            const hpInput = document.getElementById('hpInput').value;
+            const votesDisplay = document.getElementById('votesInfo');
+            const selectedCountry = dropdown.options[dropdown.selectedIndex]?.text;
+
+            if (voters && hpInput) {
+                const votes = (hpInput / totalHivePower) * voters;
+                votesDisplay.textContent = `Your vote on Hive with ${hpInput} HP has as much influence as ${Math.floor(votes)} votes in the general elections of ${selectedCountry}.`;
+            } else {
+                votesDisplay.textContent = '';
+            }
+        }
+
+        window.onload = loadCountries;
+    </script>
+</head>
+<body>
+    <h1>Country Voter Information</h1>
+    <label for="hpInput">Enter Hive Power (HP):</label>
+    <input type="number" id="hpInput" oninput="calculateVotes()" value="100" />
+    <br />
+    <label for="countryDropdown">Select a country:</label>
+    <select id="countryDropdown" onchange="calculateVotes()">
+        <option value="">--Select a country--</option>
+    </select><br />
+
+    <p id="votesInfo"></p>
+</body>
+</html>
