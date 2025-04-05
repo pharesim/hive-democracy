@@ -100,6 +100,20 @@
             return null;
         }
 
+        async function getGroupHP(accountNames) {
+            const accounts = accountNames.split(',').map(name => name.trim());
+            let totalHP = 0;
+
+            for (const account of accounts) {
+                const hp = await getAccountHP(account);
+                if (hp !== null) {
+                    totalHP += hp;
+                }
+            }
+
+            return totalHP;
+        }
+
         async function calculateVotes() {
             const dropdown = document.getElementById('countryDropdown');
             const voters = dropdown.value;
@@ -113,20 +127,20 @@
             }
 
             let hp = parseFloat(input);
-            let accountName = null;
+            let isGroup = false;
 
             if (isNaN(hp)) {
-                accountName = input;
-                hp = await getAccountHP(accountName);
-                if (hp === null) {
-                    votesDisplay.textContent = `Account "${accountName}" not found or invalid.`;
+                isGroup = input.includes(',');
+                hp = isGroup ? await getGroupHP(input) : await getAccountHP(input);
+                if (hp === null || hp === 0) {
+                    votesDisplay.textContent = `Account(s) "${input}" not found or invalid.`;
                     return;
                 }
             }
 
             const votes = (hp / totalHivePower) * voters;
             const countryName = countriesWithArticle.includes(selectedCountry) ? `the ${selectedCountry}` : selectedCountry;
-            const prefix = accountName ? `@${accountName}'s` : `Your`;
+            const prefix = isGroup ? `The group's` : `Your`;
 
             const locale = dropdown.options[dropdown.selectedIndex]?.dataset.locale || 'en-US';
             const formattedHP = new Intl.NumberFormat(locale).format(hp.toFixed(2));
@@ -186,8 +200,8 @@
 </head>
 <body>
     <h1>Hive Democracy Checker</h1>
-    <label for="hpInput">Staked Hive Power (HP) or Account Name:</label>
-    <input type="text" id="hpInput" oninput="calculateVotes()" placeholder="Enter HP or account name" />
+    <label for="hpInput">Staked Hive Power (HP), Account Name, or Group (comma-separated):</label>
+    <input type="text" id="hpInput" oninput="calculateVotes()" placeholder="Enter HP, account name, or group" />
     <br />
     <label for="countryDropdown">Select a country:</label>
     <select id="countryDropdown" onchange="calculateVotes()">
