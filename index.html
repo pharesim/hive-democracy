@@ -6,63 +6,61 @@
     <title>Hive Democracy Checker</title>
     <script>
         const countriesData = [
-            { "country": "Afghanistan", "eligible_voters": 7000000 },
-            { "country": "Algeria", "eligible_voters": 23000000 },
-            { "country": "Argentina", "eligible_voters": 33000000 },
-            { "country": "Australia", "eligible_voters": 18000000 },
-            { "country": "Bangladesh", "eligible_voters": 104000000 },
-            { "country": "Belgium", "eligible_voters": 8500000 },
-            { "country": "Brazil", "eligible_voters": 147000000 },
-            { "country": "Canada", "eligible_voters": 27000000 },
-            { "country": "Chile", "eligible_voters": 15000000 },
-            { "country": "China", "eligible_voters": 1400000000 },
-            { "country": "Colombia", "eligible_voters": 15000000 },
-            { "country": "Cuba", "eligible_voters": 8000000 },
-            { "country": "Czech Republic", "eligible_voters": 8500000 },
-            { "country": "Egypt", "eligible_voters": 70000000 },
-            { "country": "France", "eligible_voters": 50700000 },
-            { "country": "Germany", "eligible_voters": 65100000 },
-            { "country": "Ghana", "eligible_voters": 18000000 },
-            { "country": "Greece", "eligible_voters": 9700000 },
-            { "country": "India", "eligible_voters": 968000000 },
-            { "country": "Indonesia", "eligible_voters": 190000000 },
-            { "country": "Iran", "eligible_voters": 56000000 },
-            { "country": "Iraq", "eligible_voters": 13000000 },
-            { "country": "Italy", "eligible_voters": 47300000 },
-            { "country": "Japan", "eligible_voters": 105000000 },
-            { "country": "Kenya", "eligible_voters": 19000000 },
-            { "country": "Malaysia", "eligible_voters": 15000000 },
-            { "country": "Mexico", "eligible_voters": 93000000 },
-            { "country": "Morocco", "eligible_voters": 18000000 },
-            { "country": "Nepal", "eligible_voters": 12000000 },
-            { "country": "Nigeria", "eligible_voters": 84000000 },
-            { "country": "Pakistan", "eligible_voters": 127000000 },
-            { "country": "Peru", "eligible_voters": 25000000 },
-            { "country": "Philippines", "eligible_voters": 67500000 },
-            { "country": "Poland", "eligible_voters": 30000000 },
-            { "country": "Portugal", "eligible_voters": 9600000 },
-            { "country": "Romania", "eligible_voters": 18900000 },
-            { "country": "Russia", "eligible_voters": 111000000 },
-            { "country": "Saudi Arabia", "eligible_voters": 3000000 },
-            { "country": "South Africa", "eligible_voters": 26000000 },
-            { "country": "South Korea", "eligible_voters": 44000000 },
-            { "country": "Sri Lanka", "eligible_voters": 17100000 },
-            { "country": "Sudan", "eligible_voters": 12000000 },
-            { "country": "Tanzania", "eligible_voters": 15000000 },
-            { "country": "Thailand", "eligible_voters": 52000000 },
-            { "country": "Turkey", "eligible_voters": 60000000 },
-            { "country": "Ukraine", "eligible_voters": 20000000 },
-            { "country": "United Kingdom", "eligible_voters": 47000000 },
-            { "country": "United States", "eligible_voters": 250000000 },
-            { "country": "Uzbekistan", "eligible_voters": 10000000 },
-            { "country": "Venezuela", "eligible_voters": 21000000 },
-            { "country": "Vietnam", "eligible_voters": 69000000 },
-            { "country": "Zimbabwe", "eligible_voters": 10000000 }
+            { "country": "Afghanistan", "eligible_voters": 7000000, "locale": "fa-AF" },
+            { "country": "Algeria", "eligible_voters": 23000000, "locale": "ar-DZ" },
+            { "country": "Argentina", "eligible_voters": 33000000, "locale": "es-AR" },
+            { "country": "Australia", "eligible_voters": 18000000, "locale": "en-AU" },
+            { "country": "Bangladesh", "eligible_voters": 104000000, "locale": "bn-BD" },
+            { "country": "Belgium", "eligible_voters": 8500000, "locale": "nl-BE" },
+            { "country": "Brazil", "eligible_voters": 147000000, "locale": "pt-BR" },
+            { "country": "Canada", "eligible_voters": 27000000, "locale": "en-CA" },
+            { "country": "Chile", "eligible_voters": 15000000, "locale": "es-CL" },
+            { "country": "China", "eligible_voters": 1400000000, "locale": "zh-CN" },
+            { "country": "Colombia", "eligible_voters": 15000000, "locale": "es-CO" },
+            { "country": "Cuba", "eligible_voters": 8000000, "locale": "es-CU" },
+            { "country": "Czech Republic", "eligible_voters": 8500000, "locale": "cs-CZ" },
+            { "country": "Egypt", "eligible_voters": 70000000, "locale": "ar-EG" },
+            { "country": "France", "eligible_voters": 50700000, "locale": "fr-FR" },
+            { "country": "Germany", "eligible_voters": 65100000, "locale": "de-DE" },
+            { "country": "Ghana", "eligible_voters": 18000000, "locale": "en-GH" },
+            { "country": "Greece", "eligible_voters": 9700000, "locale": "el-GR" },
+            { "country": "India", "eligible_voters": 968000000, "locale": "en-IN" },
+            { "country": "Indonesia", "eligible_voters": 190000000, "locale": "id-ID" },
+            { "country": "Iran", "eligible_voters": 56000000, "locale": "fa-IR" },
+            { "country": "Iraq", "eligible_voters": 13000000, "locale": "ar-IQ" },
+            { "country": "Italy", "eligible_voters": 47300000, "locale": "it-IT" },
+            { "country": "Japan", "eligible_voters": 105000000, "locale": "ja-JP" },
+            { "country": "Kenya", "eligible_voters": 19000000, "locale": "en-KE" },
+            { "country": "Malaysia", "eligible_voters": 15000000, "locale": "ms-MY" },
+            { "country": "Mexico", "eligible_voters": 93000000, "locale": "es-MX" },
+            { "country": "Morocco", "eligible_voters": 18000000, "locale": "ar-MA" },
+            { "country": "Nepal", "eligible_voters": 12000000, "locale": "ne-NP" },
+            { "country": "Nigeria", "eligible_voters": 84000000, "locale": "en-NG" },
+            { "country": "Pakistan", "eligible_voters": 127000000, "locale": "ur-PK" },
+            { "country": "Peru", "eligible_voters": 25000000, "locale": "es-PE" },
+            { "country": "Philippines", "eligible_voters": 67500000, "locale": "en-PH" },
+            { "country": "Poland", "eligible_voters": 30000000, "locale": "pl-PL" },
+            { "country": "Portugal", "eligible_voters": 9600000, "locale": "pt-PT" },
+            { "country": "Romania", "eligible_voters": 18900000, "locale": "ro-RO" },
+            { "country": "Russia", "eligible_voters": 111000000, "locale": "ru-RU" },
+            { "country": "Saudi Arabia", "eligible_voters": 3000000, "locale": "ar-SA" },
+            { "country": "South Africa", "eligible_voters": 26000000, "locale": "en-ZA" },
+            { "country": "South Korea", "eligible_voters": 44000000, "locale": "ko-KR" },
+            { "country": "Sri Lanka", "eligible_voters": 17100000, "locale": "si-LK" },
+            { "country": "Sudan", "eligible_voters": 12000000, "locale": "ar-SD" },
+            { "country": "Tanzania", "eligible_voters": 15000000, "locale": "sw-TZ" },
+            { "country": "Thailand", "eligible_voters": 52000000, "locale": "th-TH" },
+            { "country": "Turkey", "eligible_voters": 60000000, "locale": "tr-TR" },
+            { "country": "Ukraine", "eligible_voters": 20000000, "locale": "uk-UA" },
+            { "country": "United Kingdom", "eligible_voters": 47000000, "locale": "en-GB" },
+            { "country": "United States", "eligible_voters": 250000000, "locale": "en-US" },
+            { "country": "Uzbekistan", "eligible_voters": 10000000, "locale": "uz-UZ" },
+            { "country": "Venezuela", "eligible_voters": 21000000, "locale": "es-VE" },
+            { "country": "Vietnam", "eligible_voters": 69000000, "locale": "vi-VN" },
+            { "country": "Zimbabwe", "eligible_voters": 10000000, "locale": "en-ZW" }
         ];
 
         const totalHivePower = 181000000;
-
-        const countriesWithArticle = ["United States", "United Kingdom", "Netherlands", "Philippines", "Czech Republic"];
 
         async function getGlobalProperties() {
             const response = await fetch(`https://api.hive.blog`, {
@@ -139,7 +137,7 @@
             }
 
             const votes = (hp / totalHivePower) * voters;
-            const countryName = countriesWithArticle.includes(selectedCountry) ? `the ${selectedCountry}` : selectedCountry;
+            const countryName = selectedCountry.startsWith("United") ? `the ${selectedCountry}` : selectedCountry;
             const prefix = isGroup ? `The group's` : `Your`;
 
             const locale = dropdown.options[dropdown.selectedIndex]?.dataset.locale || 'en-US';
@@ -155,74 +153,16 @@
                 const option = document.createElement('option');
                 option.value = country.eligible_voters;
                 option.textContent = country.country;
-                option.dataset.locale = getLocaleForCountry(country.country);
+                option.dataset.locale = country.locale;
                 dropdown.appendChild(option);
             });
 
             preselectCountry();
         }
 
-        function getLocaleForCountry(country) {
-            const locales = {
-                "Afghanistan": "fa-AF",
-                "Algeria": "ar-DZ",
-                "Argentina": "es-AR",
-                "Australia": "en-AU",
-                "Bangladesh": "bn-BD",
-                "Belgium": "nl-BE",
-                "Brazil": "pt-BR",
-                "Canada": "en-CA",
-                "Chile": "es-CL",
-                "China": "zh-CN",
-                "Colombia": "es-CO",
-                "Cuba": "es-CU",
-                "Czech Republic": "cs-CZ",
-                "Egypt": "ar-EG",
-                "France": "fr-FR",
-                "Germany": "de-DE",
-                "Ghana": "en-GH",
-                "Greece": "el-GR",
-                "India": "en-IN",
-                "Indonesia": "id-ID",
-                "Iran": "fa-IR",
-                "Iraq": "ar-IQ",
-                "Italy": "it-IT",
-                "Japan": "ja-JP",
-                "Kenya": "en-KE",
-                "Malaysia": "ms-MY",
-                "Mexico": "es-MX",
-                "Morocco": "ar-MA",
-                "Nepal": "ne-NP",
-                "Nigeria": "en-NG",
-                "Pakistan": "ur-PK",
-                "Peru": "es-PE",
-                "Philippines": "en-PH",
-                "Poland": "pl-PL",
-                "Portugal": "pt-PT",
-                "Romania": "ro-RO",
-                "Russia": "ru-RU",
-                "Saudi Arabia": "ar-SA",
-                "South Africa": "en-ZA",
-                "South Korea": "ko-KR",
-                "Sri Lanka": "si-LK",
-                "Sudan": "ar-SD",
-                "Tanzania": "sw-TZ",
-                "Thailand": "th-TH",
-                "Turkey": "tr-TR",
-                "Ukraine": "uk-UA",
-                "United Kingdom": "en-GB",
-                "United States": "en-US",
-                "Uzbekistan": "uz-UZ",
-                "Venezuela": "es-VE",
-                "Vietnam": "vi-VN",
-                "Zimbabwe": "en-ZW"
-            };
-            return locales[country] || "en-US";
-        }
-
         function preselectCountry() {
             const userLocale = navigator.language || "en-US";
-            const countryFromLocale = getCountryFromLocale(userLocale);
+            const countryFromLocale = countriesData.find(country => country.locale === userLocale)?.country || "United States";
             const dropdown = document.getElementById('countryDropdown');
             const options = Array.from(dropdown.options);
             const match = options.find(option => option.textContent === countryFromLocale);
@@ -234,64 +174,6 @@
             }
 
             calculateVotes();
-        }
-
-        function getCountryFromLocale(locale) {
-            const localeToCountry = {
-                "fa-AF": "Afghanistan",
-                "ar-DZ": "Algeria",
-                "es-AR": "Argentina",
-                "en-AU": "Australia",
-                "bn-BD": "Bangladesh",
-                "nl-BE": "Belgium",
-                "pt-BR": "Brazil",
-                "en-CA": "Canada",
-                "es-CL": "Chile",
-                "zh-CN": "China",
-                "es-CO": "Colombia",
-                "es-CU": "Cuba",
-                "cs-CZ": "Czech Republic",
-                "ar-EG": "Egypt",
-                "fr-FR": "France",
-                "de-DE": "Germany",
-                "en-GH": "Ghana",
-                "el-GR": "Greece",
-                "en-IN": "India",
-                "id-ID": "Indonesia",
-                "fa-IR": "Iran",
-                "ar-IQ": "Iraq",
-                "it-IT": "Italy",
-                "ja-JP": "Japan",
-                "en-KE": "Kenya",
-                "ms-MY": "Malaysia",
-                "es-MX": "Mexico",
-                "ar-MA": "Morocco",
-                "ne-NP": "Nepal",
-                "en-NG": "Nigeria",
-                "ur-PK": "Pakistan",
-                "es-PE": "Peru",
-                "en-PH": "Philippines",
-                "pl-PL": "Poland",
-                "pt-PT": "Portugal",
-                "ro-RO": "Romania",
-                "ru-RU": "Russia",
-                "ar-SA": "Saudi Arabia",
-                "en-ZA": "South Africa",
-                "ko-KR": "South Korea",
-                "si-LK": "Sri Lanka",
-                "ar-SD": "Sudan",
-                "sw-TZ": "Tanzania",
-                "th-TH": "Thailand",
-                "tr-TR": "Turkey",
-                "uk-UA": "Ukraine",
-                "en-GB": "United Kingdom",
-                "en-US": "United States",
-                "uz-UZ": "Uzbekistan",
-                "es-VE": "Venezuela",
-                "vi-VN": "Vietnam",
-                "en-ZW": "Zimbabwe"
-            };
-            return localeToCountry[locale] || "United States";
         }
 
         window.onload = loadCountries;
