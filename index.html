@@ -61,7 +61,7 @@
             { "country": "Zimbabwe", "eligible_voters": 10000000, "locale": "en-ZW" }
         ];
 
-        const totalHivePower = 181000000;
+        var totalHivePower = 1000;
 
         async function getGlobalProperties() {
             const response = await fetch(`https://api.hive.blog`, {
@@ -75,7 +75,7 @@
                 })
             });
             const data = await response.json();
-            return [parseFloat(data.result.total_vesting_fund_hive.split(" ")[0]),parseFloat(data.result.total_vesting_shares.split(" ")[0])];
+            return [parseFloat(data.result.total_vesting_fund_hive.split(" ")[0]),parseFloat(data.result.total_vesting_shares.split(" ")[0]),data.result.total__vesting_fund_hive.split(" ")];
         }
 
         async function getAccountHP(accountName) {
@@ -94,6 +94,7 @@
             if (account) {
                 const vestingShares = parseFloat(account.vesting_shares.split(" ")[0]);
                 const totalVestingFundHive = await getGlobalProperties();
+                totalHivePower = totalVestingFundHive[2];
                 return vestingShares * totalVestingFundHive[0] / totalVestingFundHive[1];
             }
             return null;
