@@ -130,8 +130,10 @@
 
             let hp = parseFloat(input);
             let isGroup = false;
-
+            let isAccount = false;
+            
             if (isNaN(hp)) {
+                isAccount = true;
                 isGroup = input.includes(',');
                 hp = isGroup ? await getGroupHP(input) : await getAccountHP(input);
                 if (hp === null || hp === 0) {
@@ -147,7 +149,8 @@
 
             const votes = (hp / totalHivePower) * voters;
             const countryName = selectedCountry.startsWith("United") ? `the ${selectedCountry}` : selectedCountry;
-            const prefix = isGroup ? `The group's` : `Your`;
+            let prefix = isAccount ? `@`+input+`'s` : `Your`;
+            prefix = isGroup ? `The group's` : prefix;
 
             const locale = dropdown.options[dropdown.selectedIndex]?.dataset.locale || 'en-US';
             const formattedHP = new Intl.NumberFormat(locale).format(hp.toFixed(2));
