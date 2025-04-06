@@ -138,7 +138,8 @@
                 }
             }
 
-            const votes = (hp / totalHivePower) * voters;
+            totalHivePower = await getGlobalProperties();
+            const votes = (hp / totalHivePower[2]) * voters;
             const countryName = selectedCountry.startsWith("United") ? `the ${selectedCountry}` : selectedCountry;
             const prefix = isGroup ? `The group's` : `Your`;
 
