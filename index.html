@@ -61,8 +61,6 @@
             { "country": "Zimbabwe", "eligible_voters": 10000000, "locale": "en-ZW" }
         ];
 
-        var totalHivePower = 18100000;
-
         async function getGlobalProperties() {
             const response = await fetch(`https://api.hive.blog`, {
                 method: "POST",
@@ -137,7 +135,7 @@
                 }
             }
 
-            totalHivePower = await getGlobalProperties();
+            const totalHivePower = await getGlobalProperties();
             const votes = (hp / totalHivePower[2]) * voters;
             const countryName = selectedCountry.startsWith("United") ? `the ${selectedCountry}` : selectedCountry;
             const prefix = isGroup ? `The group's` : `Your`;
